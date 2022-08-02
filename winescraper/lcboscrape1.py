@@ -1,6 +1,8 @@
 import requests
 import json
 import datetime
+import csv
+import pandas as pd
 from requests.structures import CaseInsensitiveDict
 
 # Create the head and data payload information for the API post request
@@ -40,8 +42,17 @@ def getProducts(firstResult: int, numberOfResults: int):
     r = requests.post(url, headers=headers, data=data)
     return r.json()
 
-data = getProducts(0,1)
+data = getProducts(firstResult=0, numberOfResults=3)
 # for title in data['results']
 # load into a postgres database
 # print(data['results'][1]['title'])
-print(data['totalCount']) # as this updates, refresh data
+print("There are a total of " + str(data['totalCount']) + " products on the main products page") # as this updates, refresh data
+
+totalResults = data['totalCount']
+
+allData = getProducts(firstResult=0, numberOfResults=totalResults)
+
+df = pd.DataFrame.from_dict(allData['results'])
+df.to_csv('test.csv')
+
+# create a function that returns a dataframe containing all the contents of data.results.raw
