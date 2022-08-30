@@ -42,7 +42,7 @@ def getProducts(firstResult: int, numberOfResults: int):
     r = requests.post(url, headers=headers, data=data)
     return r.json()
 
-data = getProducts(firstResult=0, numberOfResults=3)
+data = getProducts(firstResult=0, numberOfResults=100000)
 # for title in data['results']
 # load into a postgres database
 # print(data['results'][1]['title'])
@@ -50,9 +50,15 @@ print("There are a total of " + str(data['totalCount']) + " products on the main
 
 totalResults = data['totalCount']
 
-allData = getProducts(firstResult=0, numberOfResults=totalResults)
+allData = getProducts(firstResult=0, numberOfResults=4)
 
-df = pd.DataFrame.from_dict(allData['results'])
-df.to_csv('test.csv')
+x = []
+for p in allData['results']:
+    x.append(p['raw'])
+
+print(x)
+
+# df = pd.DataFrame.from_dict(allData['results'])
+# df.to_csv('test.csv') 
 
 # create a function that returns a dataframe containing all the contents of data.results.raw
