@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  api:
+    build: api/
+    volumes:
+      - ./api:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://wine_app_user:wine_app_password@db:5432/wine_app_db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "api:8000"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+
+  web:
+    build: 
+      context: web/
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    ports:
+      - 8001:8001
+    depends_on:
+      api:
+        condition: service_healthy
+ 
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=wine_app_user
+      - POSTGRES_PASSWORD=wine_app_password
+      - POSTGRES_DB=wine_app_db
+    healthcheck:
+      test: ["CMD", "nc", "-z", "db","5432"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  pgadmin:

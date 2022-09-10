@@ -1,0 +1,4 @@
+rest-nextjs-api-routes/
+node_modules/
+out/
+.next/
