@@ -3,7 +3,7 @@ FROM node:14.17.6
 WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
-ENV NODE_ENV production
+ENV NODE_ENV dev 
 ENV NEXT_TELEMETRY_DISABLED 1
 
 
@@ -15,6 +15,7 @@ RUN npm run build
 # RUN addgroup --system --gid 1001 nodejs
 # RUN adduser --system --uid 1001 nextjs
 # USER nextjs
+RUN npx prisma generate
 
 EXPOSE 3000
 

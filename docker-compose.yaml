@@ -5,7 +5,7 @@ services:
     build: 
       context: app/
     # platform: linux/arm64/v8
-    command: "npm run dev"
+    command: sh -c "npm run build && npm run dev"
     environment:
       - DATABASE_URL=postgresql://wine_app_user:wine_app_password@db:5432/wine_app_db
     ports:
