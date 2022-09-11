@@ -1,47 +1,28 @@
 # Fullstack Example with Next.js (REST API)
 
-This example shows how to implement a **fullstack app in TypeScript with [Next.js](https://nextjs.org/)** using [React](https://reactjs.org/) (frontend), [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend). It uses a SQLite database file with some initial dummy data which you can find at [`./prisma/dev.db`](./prisma/dev.db).
+- [Next.js](https://nextjs.org/)** using [React](https://reactjs.org/) (frontend), [Express](https://expressjs.com/) and [Prisma Client](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client) (backend).
 
 ## Getting started
 
 ### 1. Download example and install dependencies
 
-Download this example:
-
-```
-curl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/typescript/rest-nextjs-api-routes
-```
-
 Install npm dependencies:
 
 ```
-cd rest-nextjs-api-routes
+cd app
 npm install
 ```
-
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
-
-Clone this repository:
-
-```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
-
-Install npm dependencies:
-
-```
-cd prisma-examples/typescript/rest-nextjs-api-routes
-npm install
-```
-
-</details>
 
 ### 2. Create and seed the database
 
 Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```
-npx prisma migrate dev --name init
+# run the following command to start the database
+$ docker-compose -f docker-compose.dev.yaml up
+
+# on a separate shell, run
+$ npx prisma migrate dev --name init
 ```
 
 When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
