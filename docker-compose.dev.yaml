@@ -1,25 +1,14 @@
 version: '3.8'
 
 services:
-  app:
-    build: 
-      context: app/
-    # platform: linux/arm64/v8
-    command: "npm run dev"
-    environment:
-      - DATABASE_URL=postgresql://wine_app_user:wine_app_password@db:5432/wine_app_db
-    ports:
-      - 3000:3000
-    depends_on:
-      db:
-        condition: service_healthy
- 
   db:
     image: postgres:13-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     expose:
       - 5432
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=wine_app_user
       - POSTGRES_PASSWORD=wine_app_password
