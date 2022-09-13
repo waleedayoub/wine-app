@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "sourceMap": true,
+    "outDir": "./out",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -17,7 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
   },
   "exclude": [
     "node_modules"
